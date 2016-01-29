@@ -11,7 +11,7 @@ describe("05 - Challenge - Grocery List", () => {
     beforeEach( () => {
       var elem = document.createElement('div');
       elem = document.body.appendChild(elem);
-      component = React.render(React.createElement(GroceryListPart1), elem);
+      component = React.render(React.createElement(GroceryListPart4), elem);
     });
 
     it('There should be an unordered list of groceries', () => {
@@ -28,7 +28,7 @@ describe("05 - Challenge - Grocery List", () => {
     beforeEach( () => {
       var elem = document.createElement('div');
       elem = document.body.appendChild(elem);
-      component = React.render(React.createElement(GroceryListPart2), elem);
+      component = React.render(React.createElement(GroceryListPart4), elem);
     });
 
     it('Should render required tags like additional button and input', () => {
@@ -69,7 +69,7 @@ describe("05 - Challenge - Grocery List", () => {
     beforeEach( () => {
       var elem = document.createElement('div');
       elem = document.body.appendChild(elem);
-      component = React.render(React.createElement(GroceryListPart3), elem);
+      component = React.render(React.createElement(GroceryListPart4), elem);
     });
 
     it('Should render required tags', () => {

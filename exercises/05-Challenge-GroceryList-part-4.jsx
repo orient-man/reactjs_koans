@@ -41,31 +41,15 @@ class GroceryList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groceries: [
-        {
-          name: "Apples",
-          completed: false
-        }
-      ],
-      newGroceryName: ""
+      groceries: [ { name: "Apples", completed: false } ]
     };
 
     this.addGroceryItem = this.addGroceryItem.bind(this);
     this.clearList = this.clearList.bind(this);
-    this.inputChanged = this.inputChanged.bind(this);
   }
 
-  inputChanged(event) {
-    this.setState({ newGroceryName: event.target.value });
-  }
-
-  addGroceryItem() {
-    if(this.state.newGroceryName) {
-      let newGroceryItem = { name: this.state.newGroceryName };
-      this.setState({
-        groceries: this.state.groceries.concat([newGroceryItem])
-      });
-    }
+  addGroceryItem(name) {
+    this.setState({ groceries: this.state.groceries.concat([{name: name}]) });
   }
 
   clearList(event) {
@@ -75,34 +59,29 @@ class GroceryList extends React.Component {
   // Fill the definition of the following method to allow completing each item
   // Hint 1: Pay attention to the element's index on the list.
   toggleGroceryCompleteness(groceryIndex) {
-    // Put your code here
+    let grocery = this.state.groceries[groceryIndex];
+    grocery.completed = !grocery.completed;
+    this.setState({ groceries: this.state.groceries });
   }
 
   render() {
-    let groceriesComponents = [],
-        newProductInput,
-        newProductAddButton,
-        clearListButton;
-    for(var index = 0; index < this.state.groceries.length; index++) {
-      groceriesComponents.push(
-          <GroceryListItem
-            grocery={this.state.groceries[index]}
-            onComplete={this.toggleGroceryCompleteness.bind(this, index)}
-          />
-      );
-    }
+    let groceriesComponents = this.state.groceries.map((item, index) => {
+      return (
+        <GroceryListItem
+          key={index}
+          grocery={item}
+          onComplete={this.toggleGroceryCompleteness.bind(this, index)} />
+      )
+    });
 
-    newProductInput = <input className='new-item' type="text" onChange={this.inputChanged}/>;
-    newProductAddButton = <button className='add-product' onClick={this.addGroceryItem}>Add new Product</button>;
-    clearListButton = <button className='clear-list' onClick={this.clearList}>Clear the List</button>;
+    let clearListButton = <button className='clear-list' onClick={this.clearList}>Clear the List</button>;
 
     return (
       <div>
         <ul>
           {groceriesComponents}
         </ul>
-        {newProductInput}
-        {newProductAddButton}
+        <GroceryAppender onAddItem={this.addGroceryItem.bind(this)} />
         {clearListButton}
       </div>
     );
@@ -120,6 +99,41 @@ class GroceryListItem extends React.Component {
       <li className={completed} onClick={this.props.onComplete}>
         {this.props.grocery.name}
       </li>
+    );
+  }
+}
+
+class GroceryAppender extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { newGroceryName: "" };
+    this.inputChanged = this.inputChanged.bind(this);
+    this.clicked = this.clicked.bind(this);
+  }
+
+  inputChanged(event) {
+    this.setState({ newGroceryName: event.target.value });
+  }
+
+  clicked() {
+    if (this.state.newGroceryName) {
+      this.props.onAddItem(this.state.newGroceryName);
+    }
+  }
+
+  render() {
+    let newProductInput,
+        newProductAddButton;
+
+    newProductInput = <input className='new-item' type="text" onChange={this.inputChanged}/>;
+    newProductAddButton = <button className='add-product' onClick={this.clicked}>Add new Product</button>;
+
+    return (
+      <div>
+        {newProductInput}
+        {newProductAddButton}
+      </div>
     );
   }
 }
