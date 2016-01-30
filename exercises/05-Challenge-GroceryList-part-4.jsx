@@ -74,15 +74,13 @@ class GroceryList extends React.Component {
       )
     });
 
-    let clearListButton = <button className='clear-list' onClick={this.clearList}>Clear the List</button>;
-
     return (
       <div>
         <ul>
           {groceriesComponents}
         </ul>
         <GroceryAppender onAddItem={this.addGroceryItem.bind(this)} />
-        {clearListButton}
+        <button className='clear-list' onClick={this.clearList}>Clear the List</button>
       </div>
     );
   }
@@ -123,16 +121,12 @@ class GroceryAppender extends React.Component {
   }
 
   render() {
-    let newProductInput,
-        newProductAddButton;
-
-    newProductInput = <input className='new-item' type="text" onChange={this.inputChanged}/>;
-    newProductAddButton = <button className='add-product' onClick={this.clicked}>Add new Product</button>;
-
     return (
       <div>
-        {newProductInput}
-        {newProductAddButton}
+        <input className='new-item' type="text" onChange={this.inputChanged}/>
+        <button className='add-product' onClick={this.clicked}>
+          Add new Product
+        </button>
       </div>
     );
   }
